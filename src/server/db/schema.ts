@@ -23,6 +23,7 @@ export const posts = createTable(
   {
     id: serial("id").primaryKey(),
     name: varchar("name", { length: 256 }),
+    imageUrl:varchar("imageurl",{length:1024}),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),

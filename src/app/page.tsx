@@ -1,28 +1,29 @@
+import { headers } from "next/headers";
 import Link from "next/link";
+import { db } from "~/server/db";
 
-const image=[
-  "https://images.pexels.com/photos/24838257/pexels-photo-24838257/free-photo-of-glacier.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  "https://images.pexels.com/photos/24568377/pexels-photo-24568377/free-photo-of-romanian-countryside.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  "https://images.pexels.com/photos/24864710/pexels-photo-24864710/free-photo-of-the-broad-museum-in-los-angeles.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  "https://images.pexels.com/photos/24864052/pexels-photo-24864052/free-photo-of-a-golden-building-sits-on-a-lake-in-japan.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-];
+export const dynamic = "force-dynamic"
 
 
-const ImageUrl = image.map((ele,index)=>({
-id:index+1,
-url:ele
-}))
 
 
-export default function HomePage() {
+// server components
+export default async function HomePage() {
+  headers();
+
+// Here we calling the database directly 
+  const post = await db.query.posts.findMany();
+  console.log(post)
   return (
   <>
   <main className="flex flex-wrap gap-10 items-center justify-center">
-    {[...ImageUrl,...ImageUrl,...ImageUrl].map((ele)=>{
+
+    {/* {post.map((ele)=><div key={ele.id}>{ele.name}</div>)} */}
+    {post.map((ele,index)=>{
       return(
         <>
-        <div className="w-[40rem] " key={ele.id}>
-          <img  src={ele.url} alt="img" />
+        <div className="w-[40rem] " key={ele.id+"-"+index}>
+          <img src={ele?.imageUrl} alt="img" />
 
         </div>
         </>
