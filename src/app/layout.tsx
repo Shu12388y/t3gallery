@@ -1,5 +1,7 @@
 import "~/styles/globals.css";
-
+import "@uploadthing/react/styles.css";
+import { ClerkProvider } from '@clerk/nextjs'
+import NavBar from "./_components/Nav";
 import { GeistSans } from "geist/font/sans";
 
 export const metadata = {
@@ -8,16 +10,7 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-function NavBar(){
-  return(
-    <>
-    <nav className="flex flex-1 items-center justify-between text-xl p-10">
-      <div>Gallery</div>
-      <div>Sign In</div>
-    </nav>
-    </>
-  )
-}
+
 
 export default function RootLayout({
   children,
@@ -25,11 +18,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+    <ClerkProvider>
+
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
         <NavBar/>
         {children}
         </body>
     </html>
+    </ClerkProvider>
   );
 }

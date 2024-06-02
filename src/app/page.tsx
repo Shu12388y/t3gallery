@@ -13,17 +13,15 @@ export default async function HomePage() {
 
 // Here we calling the database directly 
   const post = await db.query.posts.findMany();
-  console.log(post)
+  // console.log(post)
   return (
   <>
   <main className="flex flex-wrap gap-10 items-center justify-center">
-
-    {/* {post.map((ele)=><div key={ele.id}>{ele.name}</div>)} */}
-    {post.map((ele,index)=>{
+    {post.map((ele:any,index:any)=>{
       return(
         <>
         <div className="w-[40rem] " key={ele.id+"-"+index}>
-          <img src={ele?.imageUrl} alt="img" />
+          <img src={ele.imageUrl} alt="img" />
 
         </div>
         </>
