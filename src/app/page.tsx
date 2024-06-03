@@ -1,27 +1,25 @@
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { headers } from "next/headers";
-import Link from "next/link";
-import { db } from "~/server/db";
+import { getImage } from "~/server/query";
+import Image from "next/image";
 
 export const dynamic = "force-dynamic"
 
 
 
 
-// server components
-export default async function HomePage() {
-  headers();
-
-// Here we calling the database directly 
-  const post = await db.query.posts.findMany();
+async function Images() {
+  // Here we calling the database directly 
+ const post = await getImage();
   // console.log(post)
   return (
   <>
-  <main className="flex flex-wrap gap-10 items-center justify-center">
+  <main className="flex flex-wrap gap-10 w-45 h-45 items-center justify-center">
     {post.map((ele:any,index:any)=>{
       return(
         <>
         <div className="w-[40rem] " key={ele.id+"-"+index}>
-          <img src={ele.imageUrl} alt="img" />
+          <Image width={480} height={480} style={{objectFit:"contain"}} src={ele.imageUrl} alt="img" />
 
         </div>
         </>
@@ -30,5 +28,23 @@ export default async function HomePage() {
     </main>
 
   </> 
-  );
+  )
+
+  
+}
+
+
+// server components
+export default async function HomePage() {
+  headers();
+return(
+  <>
+  <SignedOut>
+    <div>Please sign in</div>
+  </SignedOut>
+  <SignedIn>
+    <Images/>
+  </SignedIn>
+  </>
+)
 }
